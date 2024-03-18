@@ -1,9 +1,12 @@
 import pytest
-from playwright.async_api import expect
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.sync_api import Playwright
 from function import *
 
-def test_api_login():
-    pass
-    assert 100 is 100
-
+#parametrizzazione di un test
+@pytest.mark.parametrize("test_input_user,test_input_pass", get_data("Book1.xlsx", "Sheet1"))
+def test_login_wordpress(test_input_user, test_input_pass, playwright: Playwright):
+    try:
+        loginWordPress(test_input_user, test_input_pass, playwright)
+        print("Login OK")
+    except:
+        pytest.fail("Login FAIL", pytrace=False)
